@@ -1,10 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <h1>hello friend</h1>
-</body>
-</html>
+{% extends 'html/base.html' %}
+{% block content %}
+<div class="col-sm-9">
+  <h4><small>RECENT PUBLIC NOTES</small></h4>
+  {% if user.is_authenticated %}
+  Hi <strong>{{ user.username }}</strong>!
+  <br>
+  <a href="{% url 'logout' %}">Log Out</a>
+  {% else %}
+    <p>You are not logged in</p>
+    <a href="{% url 'login' %}">Log In</a>
+  {% endif %}
+  {% for note in notes_list %}
+    <hr>
+    <h2>{{ note.title }}  </h2>
+    <h5><span class="glyphicon glyphicon-time"></span> Post by {{ note.author }}, {{ note.created_on }}.</h5>
+    <h5><span class="label label-danger">Food</span> <span class="label label-primary">Ipsum</span></h5><br>
+    <p>{{ note.content|truncatechars:50 }}</p>
+    <a href="{% url 'note_detail' note.slug  %}" class="btn btn-primary">Read More &rarr;</a>
+    <br><br>
+  {% endfor %}
+</div>
+{% endblock content %}

@@ -1,0 +1,23 @@
+{% extends 'html/base.html' %}
+{% block content %}
+<div class="col-sm-9">
+    <hr>
+    <h2>{{ note_detail.title }}</h2>
+    <h5><span class="glyphicon glyphicon-time"></span> Post by {{ note_detail.author }}, {{ note_detail.created_on|date:"M d, Y" }}.</h5>
+    <h5><span class="label label-danger">Food</span> <span class="label label-primary">Ipsum</span></h5><br>
+    <p>{{ note_detail.content }}</p>
+    <hr>
+    <h4>Leave a Comment:</h4>
+  <form role="form">
+    <div class="form-group">
+      <textarea class="form-control" rows="3" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-success">Submit</button>
+  </form>
+  <br><br>
+    {% if not note_detail.comments.all %}
+        <h4>No comments added, yet</h4>
+    {% else %}
+        {% include 'html/comment.html' %}
+    {% endif %}
+{% endblock content %}
