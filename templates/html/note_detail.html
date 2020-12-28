@@ -2,15 +2,19 @@
 {% block content %}
 <div class="col-sm-9">
     <hr>
-    <h2>{{ note_detail.title }}</h2>
-    <h5><span class="glyphicon glyphicon-time"></span> Post by {{ note_detail.author }}, {{ note_detail.created_on|date:"M d, Y" }}.</h5>
-    <h5><span class="label label-danger">Food</span> <span class="label label-primary">Ipsum</span></h5><br>
-    <p>{{ note_detail.content }}</p>
+    {% if user.is_authenticated %}
+        <h2>{{ note_detail.title }}</h2>
+        <h5><span class="glyphicon glyphicon-time"></span> Post by {{ note_detail.author }}, {{ note_detail.created_on|date:"M d, Y" }}.</h5>
+        <h5><a href="{% url 'note_update_view' note_detail.slug %}"><span class="label label-primary">Edit</span></a> <a href="{% url 'note_delete_view' note_detail.slug %}"><span class="label label-danger">Delete</span></a></h5><br>
+
+        <p>{{ note_detail.content|linebreaks }}</p>
     <hr>
     <h4>Leave a Comment:</h4>
-  <form role="form">
+  <form role="form" method="post">
     <div class="form-group">
-      <textarea class="form-control" rows="3" required></textarea>
+<!--      <textarea class="form-control" rows="3" required></textarea>-->
+        {% csrf_token %}
+        {{ comment_form.as_p }}
     </div>
     <button type="submit" class="btn btn-success">Submit</button>
   </form>
@@ -19,5 +23,9 @@
         <h4>No comments added, yet</h4>
     {% else %}
         {% include 'html/comment.html' %}
+    {% endif %}
+    {% else %}
+        <p>You are not allowed to view public content!</p>
+        <a href="{% url 'login' %}">Log In</a> to get access!
     {% endif %}
 {% endblock content %}

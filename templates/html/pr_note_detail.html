@@ -5,13 +5,15 @@
     {% if user.is_authenticated %}
         <h2>{{ pr_note_detail.title }}  </h2>
         <h5><span class="glyphicon glyphicon-time"></span> Post by {{ pr_note_detail.author }}, {{ pr_note_detail.created_on|date:"M d, Y" }}.</h5>
-        <h5><span class="label label-danger">Food</span> <span class="label label-primary">Ipsum</span></h5><br>
-        <p>{{ pr_note_detail.content }}</p>
+        <h5><a href="{% url 'pr_note_update_view' pr_note_detail.slug %}"><span class="label label-primary">Edit</span></a> <a href="{% url 'pr_note_delete_view' pr_note_detail.slug %}"><span class="label label-danger">Delete</span></a></h5><br>
+        <p>{{ pr_note_detail.content|linebreaks }}</p>
     <hr>
     <h4>Leave a Comment:</h4>
-  <form role="form">
+  <form role="form" method="post">
     <div class="form-group">
-      <textarea class="form-control" rows="3" required></textarea>
+<!--      <textarea class="form-control" rows="3" required></textarea>-->
+        {% csrf_token %}
+        {{ comment_form.as_p }}
     </div>
     <button type="submit" class="btn btn-success">Submit</button>
   </form>

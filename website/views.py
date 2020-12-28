@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from .forms import CommentForm
 from .models import Note
+from django.urls import reverse
 
 def note_detail(request, slug):
     template_name = 'html/note_detail.html'
@@ -60,6 +61,16 @@ class PrivateNoteList(generic.ListView):
     context_object_name = 'private_notes_list'
     queryset = Note.objects.filter(status=1).order_by('-created_on')
     template_name = 'html/private.html'
+
+class NoteUpdateView(generic.UpdateView):
+    model = Note
+    fields = ['title', 'content', 'status']
+    template_name = "html/note_update_view.html"
+
+class NoteDeleteView(generic.DeleteView):
+    model = Note
+    success_url = '/'
+    template_name = "html/note_confirm_delete.html"
 
 # class PrivateNoteDetail(generic.DetailView):
 #     context_object_name = 'pr_note_detail'

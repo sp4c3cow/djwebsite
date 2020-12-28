@@ -14,7 +14,6 @@
     <hr>
     <h2>{{ note.title }}  </h2>
     <h5><span class="glyphicon glyphicon-time"></span> Post by {{ note.author }}, {{ note.created_on }}.</h5>
-    <h5><span class="label label-danger">Food</span> <span class="label label-primary">Ipsum</span></h5><br>
     <p>{{ note.content|truncatechars:50 }}</p>
     <a href="{% url 'note_detail' note.slug  %}" class="btn btn-primary">Read More &rarr;</a>
     <br><br>

@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 
 STATUS = (
     (0, 'Public'),
@@ -20,6 +21,10 @@ class Note(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('note_detail', kwargs={'slug': self.slug})
+
 
 class Comment(models.Model):
     note = models.ForeignKey(Note, on_delete=models.CASCADE, related_name='comments')
